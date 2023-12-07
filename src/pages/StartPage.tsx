@@ -17,10 +17,25 @@ const StartPage: React.FC = () => {
     const [curPage, setCurPage] = useState<number>(1);
     const [totalPage, setTotalPage] = useState<number>(0);
 
+    
 
     function getPage(event: any) {
-        const num = +event.target.innerText;
-        setCurPage(num);
+       
+        let num = curPage;
+        
+        if (event.target.innerText) {
+            num = +event.target.innerText;
+        }
+        if (event.currentTarget.ariaLabel == 'Go to next page') {
+            num++;
+           } 
+        if (event.currentTarget.ariaLabel == 'Go to previous page') {
+            num--;
+                
+          }
+         
+          setCurPage(num);
+          
         
     }
 
@@ -34,20 +49,12 @@ const StartPage: React.FC = () => {
     }, [curPage, inputMovie])
         
         
-
-    async function onClickButtonFn(): Promise<void> {
-        // const newMovie: Movie = {name: inputMovie};
-        
-        // const movies = await movieService.getMovie(undefined, undefined);
-        //  console.log(movies);
+    function onClickButtonFn(str: string) {
+        setInputMovie(str);
                 
     }
 
-    function handlerMovieName(event: any): void {
-        const name = event.target.value;
-        setInputMovie(name);
-    }
-
+   
     return (
     <>
     <Box sx={{
@@ -65,7 +72,7 @@ const StartPage: React.FC = () => {
     }}>
         
         <SearchMovieTitle/>
-        <TypeSearchMovieBlock onClickFn={onClickButtonFn} onChangeFn={handlerMovieName}/>
+        <TypeSearchMovieBlock onClickFn={onClickButtonFn}/>
         
     </Box>
     <Grid movies={curMovies}/>

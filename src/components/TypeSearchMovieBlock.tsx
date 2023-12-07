@@ -2,17 +2,23 @@ import { Box, Button, TextField } from "@mui/material";
 import React from "react";
 
 type Props = {
-    onClickFn: () => void;
-    onChangeFn: (event: any) => void;
-    
+     onClickFn: (str: string) => void;
 }
 
 const TypeSearchMovieBlock: React.FC<Props> = (props) => {
 
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const data = new FormData(event.currentTarget);
+    const movie: string = data.get('movie') as string;
+    props.onClickFn(movie);
+    
+  }
   return (
     
-        <Box
+        <Box component='form' onSubmit={handleSubmit} 
           sx={{
+            
             display: "flex",
             flexDirection: "row",
             alignItems: "center",
@@ -22,18 +28,19 @@ const TypeSearchMovieBlock: React.FC<Props> = (props) => {
           }}
         >
           <TextField
+          name="movie"
             size="small"
             type="text"
-            required
+            
             fullWidth
             label="Type movie name..."
-            onChange={props.onChangeFn}
+            
             
           />
           
           <Button
+          type="submit"
           size="medium"
-            onClick={() => props.onClickFn()}
             variant="contained"
             color="primary"
           
